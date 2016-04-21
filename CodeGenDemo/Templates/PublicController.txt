@@ -1,0 +1,44 @@
+
+        [HttpGet("#EntityName#s")]
+        public IActionResult Get#EntityName#s()
+        {
+            try
+            {
+                var service = new #EntityName#Service();
+
+                var result = service.GetAll().ToList();
+
+                if (result != null)
+                {
+                    return Json(result);
+                }
+
+                return this.HttpNotFound();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("#EntityName#s/{id}")]
+        public IActionResult Get#EntityName#s(long id)
+        {
+            try
+            {
+                var service = new #EntityName#Service();
+
+                var result = service.GetById(id);
+
+                if (result != null)
+                {
+                    return Json(result);
+                }
+
+                return this.HttpNotFound();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }

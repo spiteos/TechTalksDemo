@@ -1,0 +1,32 @@
+﻿
+        [Fact]
+        public async void TestPublic#EntityName#GetAll()
+        {
+            using (var client = server.CreateClient().AcceptJson())
+            {
+                var response = await client.GetAsync("/api/public/#EntityName#s");
+                var result = await response.Content.ReadAsJsonAsync<List<#EntityName#>>();
+
+                var service = new #EntityName#Service();
+                var count = service.GetAll().Count();
+
+                Assert.Equal(result.Count, count);
+            }
+        }
+
+        [Fact]
+        public async void TestPublic#EntityName#GetById()
+        {
+            using (var client = server.CreateClient().AcceptJson())
+            {
+                var service = new #EntityName#Service();
+                var maxId = service.GetAll().Max(i => i.Id);
+
+                var response = await client.GetAsync(string.Format("/api/public/#EntityName#s/{0}", maxId));
+                var result = await response.Content.ReadAsJsonAsync<#EntityName#>();                
+
+                Assert.Equal(result.Id, maxId);
+                Assert.Equal((int)response.StatusCode, 200);
+            }
+        }
+    

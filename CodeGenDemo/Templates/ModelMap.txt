@@ -1,0 +1,16 @@
+﻿namespace TechTalksDemo.Models
+{
+    using Microsoft.Data.Entity;
+    using Microsoft.Data.Entity.Metadata;
+    using Microsoft.Data.Entity.Metadata.Builders;
+
+    public class #EntityName#Map
+    {
+        public #EntityName#Map(EntityTypeBuilder<#EntityName#> entityBuilder)
+        {
+            entityBuilder.ToTable("#EntityName#s");
+            entityBuilder.HasKey(i => i.Id);
+            entityBuilder.Property(i => i.Name).IsRequired();
+        }
+    }
+}

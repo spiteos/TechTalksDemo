@@ -1,0 +1,23 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "TechTalksDemo.Tests Class Library",
+  "authors": [ "YURUKOV" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "dependencies": {
+    "TechTalksDemo": "1.0.0-*",
+    "Microsoft.AspNet.Hosting": "1.0.0-rc1-final",
+    "Microsoft.AspNet.TestHost": "1.0.0-rc1-final",
+    "Microsoft.AspNet.WebApi.Client": "5.2.2",
+    "xunit": "2.1.0",
+    "xunit.runner.dnx": "2.1.0-rc1-build204"
+  },
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  }
+}

@@ -1,0 +1,110 @@
+﻿namespace TechTalksDemo.Services
+{
+    using System;
+    using System.Linq;
+    using Models;
+    using Repos;
+    using Microsoft.Data.Entity.Infrastructure;
+    //using Helpers;
+
+    public class #EntityName#Service : BaseService
+    {
+        public #EntityName#Service()
+        {
+            this.#EntityName#Repository = new #EntityName#Repository();
+        }
+
+        public IRepository<#EntityName#> #EntityName#Repository { get; set; }
+
+        public IQueryable<#EntityName#> GetAll()
+        {
+            try
+            {
+                return this.#EntityName#Repository.GetAll();
+            }
+            catch (Exception e)
+            {
+                //LogHelper.Error("Error occurred in #EntityName#Service 'GetAll' method", e);
+            }
+
+            return null;
+        }
+
+        public #EntityName# GetById(long id)
+        {
+            try
+            {
+                var repository = this.#EntityName#Repository;
+                return repository.GetById(id);
+            }
+            catch (Exception e)
+            {
+                //LogHelper.Error("Error occurred in #EntityName#Service 'GetById' method", e);
+            }
+
+            return null;
+        }
+
+        public void Add(#EntityName# item)
+        {
+            try
+            {
+                var repository = this.#EntityName#Repository;
+                repository.Add(item);
+                repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                //LogHelper.Error("Error occurred in #EntityName#Service 'Add' method", e);
+            }
+        }
+
+        public void Add(#EntityName# item, out long id)
+        {
+            try
+            {
+                var repository = this.#EntityName#Repository;
+                repository.Add(item);
+                repository.SaveChanges();
+                id = item.Id;
+            }
+            catch (Exception e)
+            {
+                id = item.Id;
+                //LogHelper.Error("Error occurred in #EntityName#Service 'Add' method", e);
+            }
+        }
+
+        public bool Delete(long id)
+        {
+            try
+            {
+                var repository = this.#EntityName#Repository;
+                var item = repository.GetById(id);
+                repository.Delete(item);
+                repository.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                //LogHelper.Error("Error occurred in #EntityName#Service 'Delete' method", e);
+            }
+
+            return false;
+        }
+
+        public void Update(#EntityName# item)
+        {
+            try
+            {
+                var repository = this.#EntityName#Repository;
+                repository.Update(item);
+                repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                //LogHelper.Error("Error occurred in #EntityName#Service 'Update' method", e);
+            }
+        }
+    }
+}

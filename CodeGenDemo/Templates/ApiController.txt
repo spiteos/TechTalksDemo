@@ -1,0 +1,148 @@
+﻿using TechTalksDemo.Models;
+using TechTalksDemo.ViewModels;
+using TechTalksDemo.Services;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.Data.Entity;
+using System.Linq;
+using Microsoft.AspNet.Identity;
+using TechTalksDemo.Helpers;
+using System.Security.Claims;
+using System;
+using System.Net;
+
+namespace TechTalksDemo.Controllers
+{
+    [Route("api/[controller]")]
+    public class #EntityName#sController : Controller
+    {
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                var service = new #EntityName#Service();
+
+                var result = service.GetAll().ToList();
+
+                if (result != null)
+                {
+                    return Json(result);
+                }
+
+                return this.HttpNotFound();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(long id)
+        {
+            try
+            {
+                var service = new #EntityName#Service();
+
+                var result = service.GetById(id);
+
+                if (result != null)
+                {
+                    return Json(result);
+                }
+
+                return this.HttpNotFound();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] #EntityName# newItem)
+        {
+            try
+            {
+                if(newItem == null)
+                    return this.HttpBadRequest();
+
+                var service = new #EntityName#Service();
+                long itemId = 0;
+                newItem.Id = itemId;
+                service.Add(newItem, out itemId);
+
+                if (itemId > 0)
+                {
+                    var newServiceInstance = new #EntityName#Service();
+                    var item = newServiceInstance.GetById(itemId);
+
+                    if(item != null)
+                    {
+                        item.Id = itemId;
+                        return this.Created("", item);
+                    }
+
+                    return this.HttpBadRequest();
+                }
+
+                return this.HttpBadRequest();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(long id, [FromBody] #EntityName# item)
+        {
+            try
+            {
+                if (item == null || item.Id != id)
+                    return this.HttpBadRequest();
+
+                var service = new #EntityName#Service();
+                service.Update(item);
+
+				var newService = new #EntityName#Service();
+				var result = newService.GetById(id);
+
+				if(result != null)
+				{
+					return Json(result);
+				}
+
+                return this.HttpNotFound();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            try
+            {
+                var service = new #EntityName#Service();
+
+                var result = service.Delete(id);
+
+                if (result)
+                {
+                    return this.Ok();
+                }
+
+                return this.HttpNotFound();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
+        }
+    }
+}

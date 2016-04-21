@@ -1,0 +1,93 @@
+﻿namespace TechTalksDemo.Repos
+{
+    using System;
+    using System.Linq;
+    using Microsoft.Data.Entity;
+    using Microsoft.Data.Entity.Infrastructure;
+    using Models;
+
+    public class #EntityName#Repository : IRepository<#EntityName#>
+    {
+        public #EntityName#Repository()
+        {
+            this.DBContext = new ApplicationDbContext();
+        }
+
+        public #EntityName#Repository(ApplicationDbContext context)
+        {
+            this.DBContext = context;
+        }
+
+        public ApplicationDbContext DBContext { get; set; }
+
+        public void Add(#EntityName# entity)
+        {
+            try
+            {
+                this.DBContext.#EntityName#s.Add(entity);
+                this.DBContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void Delete(#EntityName# entity)
+        {
+            try
+            {
+                if (entity != null)
+                {
+                    this.DBContext.#EntityName#s.Remove(entity);
+                    this.DBContext.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("No entity with the specified Id in the #EntityName# list");
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public IQueryable<#EntityName#> GetAll()
+        {
+            return this.DBContext.#EntityName#s.AsQueryable();
+        }
+
+        public #EntityName# GetById(long id)
+        {
+            try
+            {
+                #EntityName# entity = this.DBContext.#EntityName#s.FirstOrDefault(c => c.Id == id);
+
+                return entity;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void SaveChanges()
+        {
+            this.DBContext.SaveChanges();
+        }
+
+        public void Update(#EntityName# entity)
+        {
+            try
+            {
+                this.DBContext.Entry(entity).State = EntityState.Modified;
+                this.DBContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}
